@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Your Complain</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="left-section">
+      <h2>Register Your Complain</h2>
+      <p>We would love to hear from you!</p>
+    </div>
+    <form id="complaintForm" enctype="multipart/form-data">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+    
+      <label for="mobile">Mobile:</label>
+      <input type="text" id="mobile" name="mobile" required>
+    
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+    
+      <label for="category">Category:</label>
+      <select id="category" name="category">
+        <option value="organic">Organic</option>
+        <option value="inorganic">Inorganic</option>
+        <option value="metallic">Metallic</option>
+        <option value="all">All</option>
+      </select>
+    
+      <label for="location">Location:</label>
+      <input type="text" id="location" name="location" required>
+    
+      <label for="pictures">Pictures:</label>
+      <input type="file" id="pictures" name="pictures">
+    
+      <button type="submit">Register</button>
+    </form>
+    
+    <script>
+    document.getElementById("complaintForm").addEventListener("submit", async function(event) {
+      event.preventDefault();
+    
+      const formData = new FormData(this);
+    
+      try {
+        const response = await fetch("http://localhost:5000/submit-complaint", {
+          method: "POST",
+          body: formData
+        });
+    
+        const result = await response.json();
+        alert(result.message);
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Failed to register complaint");
+      }
+    });
+    </script>
+    
+  </div>
+</body>
+</html>
