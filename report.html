@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WMS - Report Waste</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: #1a3c34;
+      color: white;
+      position: relative;
+    }
+
+    .logo img {
+      height: 40px;
+    }
+
+    .search-bar {
+      flex: 1;
+      margin: 0 20px;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 20px;
+      font-size: 16px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-right .points {
+      background: #28a745;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    .login-btn {
+      background: #28a745;
+      padding: 8px 20px;
+      border-radius: 20px;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .login-btn:hover {
+      background: #218838;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: #f8f9fa;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: -250px;
+      transition: left 0.3s ease;
+      padding-top: 70px;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .sidebar ul li.active, .sidebar ul li:hover {
+      background: #e0f2e9;
+      color: #28a745;
+    }
+
+    .main-content {
+      margin-left: 0;
+      padding: 50px 20px;
+    }
+
+    .report-waste-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .form-container {
+      background: #1a3c34;
+      color: white;
+      padding: 30px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .form-container h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .form-container p {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .form-group input[type="file"] {
+      padding: 5px;
+    }
+
+    .form-group button {
+      width: 100%;
+      padding: 12px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .form-group button:hover {
+      background: #0056b3;
+    }
+
+    .map-container {
+      width: 100%;
+      max-width: 600px;
+      height: 400px;
+      background: #e9ecef;
+      border-radius: 10px;
+      position: relative;
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+    }
+
+    @media (min-width: 768px) {
+      .sidebar {
+        left: 0;
+      }
+
+      .main-content {
+        margin-left: 250px;
+      }
+
+      .menu-toggle {
+        display: none;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .search-bar {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav-right .points {
+        font-size: 12px;
+        padding: 5px 10px;
+      }
+
+      .login-btn {
+        padding: 5px 15px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="menu-toggle">
+      <i class="fas fa-bars"></i>
+    </div>
+    <div class="logo">
+      <img src="https://www.clipartmax.com/png/middle/67-675568_warehouse-and-inventory-management-integrated-tools-warehouse-management-system-wms-logo.png" alt="WMS Logo">
+    </div>
+    <div class="search-bar">
+      <input type="text" placeholder="Search...">
+    </div>
+    <div class="nav-right">
+      <i class="fas fa-bell"></i>
+      <span class="points">🌿 0.00</span>
+      <a href="#" class="login-btn">Login <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </nav>
+
+   <aside class="sidebar">
+    <ul>
+    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="report.html"><i class="fas fa-map-marker-alt"></i> Report Waste</a></li>
+      <li><a href="collect.html"><i class="fas fa-trash-alt"></i> collect Waste</a></li>
+      <li><a href="rewards.html"><i class="fas fa-leaf"></i> Rewards</a></li>
+      <li><a href="leaderboard.html"><i class="fas fa-trophy"></i> Leaderboard</a></li>
+    </ul>
+  </aside>
+
+  <main class="main-content">
+    <section class="report-waste-section">
+      <div class="form-container">
+        <h2>Register Your Complaint</h2>
+        <p>We would love to hear from you!</p>
+        <form id="reportForm" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="mobile">Mobile:</label>
+            <input type="tel" id="mobile" name="mobile" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="category">Category:</label>
+            <select id="category" name="category" required>
+              <option value="organic">Organic</option>
+              <option value="plastic">Plastic</option>
+              <option value="electronic">Electronic</option>
+              <option value="hazardous">Hazardous</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="searchLocation">Search Location:</label>
+            <input type="text" id="searchLocation" name="searchLocation" placeholder="Enter a location">
+          </div>
+          <div class="form-group">
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" readonly value="28.6139, 77.209">
+          </div>
+          <div class="form-group">
+            <label for="pictures">Pictures:</label>
+            <input type="file" id="pictures" name="pictures" accept="image/*">
+          </div>
+          <div class="form-group">
+            <button type="submit">Register</button>
+          </div>
+        </form>
+      </div>
+      <div class="map-container">
+        <div id="map"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsuLp6EgvysOKUoKMOrKbCMX_NrUTT7Gw&libraries=places&callback=initMap" async defer></script>
+  <script>
+    // Sidebar toggle functionality
+    const menuToggle = document.querySelector('.menu-toggle');
+    const sidebar = document.querySelector('.sidebar');
+
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 767 && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+        sidebar.classList.remove('active');
+      }
+    });
+
+    // Google Maps initialization
+    let map;
+    function initMap() {
+      const location = { lat: 28.6139, lng: 77.209 }; // Default location: New Delhi
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: location,
+        zoom: 12
+      });
+
+      const marker = new google.maps.Marker({
+        position: location,
+        map: map
+      });
+
+      // Search location functionality
+      const searchInput = document.getElementById('searchLocation');
+      const autocomplete = new google.maps.places.Autocomplete(searchInput);
+      autocomplete.bindTo('bounds', map);
+
+      autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace();
+        if (!place.geometry) {
+          console.log("No details available for input: '" + place.name + "'");
+          return;
+        }
+
+        if (place.geometry.viewport) {
+          map.fitBounds(place.geometry.viewport);
+        } else {
+          map.setCenter(place.geometry.location);
+          map.setZoom(17);
+        }
+
+        marker.setPosition(place.geometry.location);
+        const lat = place.geometry.location.lat();
+        const lng = place.geometry.location.lng();
+        document.getElementById('location').value = `${lat}, ${lng}`;
+      });
+    }
+
+    // Form submission
+    document.getElementById('reportForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+
+      try {
+        const response = await fetch('http://localhost:3000/report', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (response.ok) {
+          alert('Report submitted successfully!');
+          e.target.reset();
+          document.getElementById('location').value = '28.6139, 77.209';
+          map.setCenter({ lat: 28.6139, lng: 77.209 });
+          map.setZoom(12);
+        } else {
+          alert('Failed to submit report. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+      }
+    });
+  </script>
+</body>
+</html>

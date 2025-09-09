@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WMS - Waste Management System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: #1a3c34;
+      color: white;
+      position: relative;
+    }
+
+    .logo img {
+      height: 40px;
+    }
+
+    .search-bar {
+      flex: 1;
+      margin: 0 20px;
+      color: #218838;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 20px;
+      font-size: 16px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-right .points {
+      background: #28a745;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    .login-btn {
+      background: #28a745;
+      padding: 8px 20px;
+      border-radius: 20px;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .login-btn:hover {
+      background: #424643;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: #f8f9fa;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: -250px;
+      transition: left 0.3s ease;
+      padding-top: 70px;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .sidebar ul li.active, .sidebar ul li:hover {
+      background: #e0f2e9;
+      color: #28a745;
+    }
+
+    .main-content {
+      margin-left: 0;
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    .hero-section {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .hero-section img {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+
+    .hero-section h1 {
+      font-size: 48px;
+      color: #1a3c34;
+      margin-bottom: 10px;
+    }
+
+    .hero-section h1 span {
+      color: #28a745;
+    }
+
+    .hero-section p {
+      font-size: 18px;
+      color: #6c757d;
+      margin-bottom: 30px;
+    }
+
+    .get-started-btn {
+      display: inline-block;
+      background: #28a745;
+      color: white;
+      padding: 12px 30px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+
+    .get-started-btn:hover {
+      background: #218838;
+    }
+
+    .features-section {
+      margin-top: 50px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      width: 100%;
+      max-width: 300px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-card i {
+      font-size: 40px;
+      color: #28a745;
+      background: #e0f2e9;
+      width: 80px;
+      height: 80px;
+      line-height: 80px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+    }
+
+    .feature-card h3 {
+      font-size: 20px;
+      color: #1a3c34;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: #6c757d;
+    }
+
+    @media (min-width: 768px) {
+      .sidebar {
+        left: 0;
+      }
+
+      .main-content {
+        margin-left: 250px;
+      }
+
+      .menu-toggle {
+        display: none;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .search-bar {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav-right .points {
+        font-size: 12px;
+        padding: 5px 10px;
+      }
+
+      .login-btn {
+        padding: 5px 15px;
+        font-size: 14px;
+      }
+
+      .hero-section h1 {
+        font-size: 32px;
+      }
+
+      .hero-section p {
+        font-size: 16px;
+      }
+
+      .feature-card {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="menu-toggle">
+      <i class="fas fa-bars"></i>
+    </div>
+    <div class="logo">
+      <img src="https://www.clipartmax.com/png/middle/67-675568_warehouse-and-inventory-management-integrated-tools-warehouse-management-system-wms-logo.png" alt="WMS Logo">
+    </div>
+    <div class="search-bar">
+      <input type="text" placeholder="Search...">
+    </div>
+    <div class="nav-right">
+      <i class="fas fa-bell"></i>
+      <span class="points">🌿 0.00</span>
+      <a href="login.html" class="login-btn">Login <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </nav>
+
+  <aside class="sidebar">
+    <ul>
+      <li class="active"><i class="fas fa-home"></i> Home</li>
+      <li><a href="report.html"><i class="fas fa-map-marker-alt"></i> Report Waste</a></li>
+      <li><a href="collect.html"><i class="fas fa-trash-alt"></i> collect Waste</a></li>
+      <li><a href="rewards.html"><i class="fas fa-leaf"></i> Rewards</a></li>
+      <li><a href="leaderboard.html"><i class="fas fa-trophy"></i> Leaderboard</a></li>
+    </ul>
+  </aside>
+
+  <main class="main-content">
+    <section class="hero-section">
+      <img src="https://www.clipartmax.com/png/middle/67-675568_warehouse-and-inventory-management-integrated-tools-warehouse-management-system-wms-logo.png" alt="WMS Icon">
+      <h1>WMS <span>Waste Management</span></h1>
+      <p>Join our community in making waste management more efficient and rewarding!</p>
+      <a href="#" class="get-started-btn">Get Started <i class="fas fa-arrow-right"></i></a>
+    </section>
+
+    <section class="features-section">
+      <div class="feature-card">
+        <i class="fas fa-leaf"></i>
+        <h3>Eco-Friendly</h3>
+        <p>Contribute to a cleaner environment by reporting and collecting waste.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-gift"></i>
+        <h3>Earn Rewards</h3>
+        <p>Get tokens for your contributions to waste management efforts.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-users"></i>
+        <h3>Community-Driven</h3>
+        <p>Be part of a growing community committed to sustainable practices.</p>
+      </div>
+    </section>
+    
+  </main>
+
+  <script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const sidebar = document.querySelector('.sidebar');
+
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+    });
+
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 767 && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+        sidebar.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>

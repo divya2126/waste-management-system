@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WMS - Rewards</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: #1a3c34;
+      color: white;
+      position: relative;
+    }
+
+    .logo img {
+      height: 40px;
+    }
+
+    .search-bar {
+      flex: 1;
+      margin: 0 20px;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 20px;
+      font-size: 16px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-right .points {
+      background: #28a745;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    .login-btn {
+      background: #28a745;
+      padding: 8px 20px;
+      border-radius: 20px;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .login-btn:hover {
+      background: #218838;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: #f8f9fa;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: -250px;
+      transition: left 0.3s ease;
+      padding-top: 70px;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .sidebar ul li.active, .sidebar ul li:hover {
+      background: #e0f2e9;
+      color: #28a745;
+    }
+
+    .main-content {
+      margin-left: 0;
+      padding: 50px 20px;
+    }
+
+    .rewards-section {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .reward-balance {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .reward-balance h2 {
+      font-size: 24px;
+      color: #1a3c34;
+      margin-bottom: 10px;
+    }
+
+    .reward-balance p {
+      font-size: 36px;
+      color: #28a745;
+      margin-bottom: 5px;
+    }
+
+    .reward-balance span {
+      font-size: 14px;
+      color: #6c757d;
+    }
+
+    .rewards-content {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .transactions, .available-rewards {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .transactions h3, .available-rewards h3 {
+      font-size: 20px;
+      color: #1a3c34;
+      margin-bottom: 15px;
+    }
+
+    .transaction-item {
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .transaction-item i {
+      font-size: 20px;
+      margin-right: 10px;
+    }
+
+    .transaction-item.earned i {
+      color: #28a745;
+    }
+
+    .transaction-item.redeemed i {
+      color: #dc3545;
+    }
+
+    .transaction-item p {
+      font-size: 14px;
+      color: #1a3c34;
+    }
+
+    .transaction-item span {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .transaction-item.earned span {
+      color: #28a745;
+    }
+
+    .transaction-item.redeemed span {
+      color: #dc3545;
+    }
+
+    .available-rewards {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .available-rewards p {
+      font-size: 16px;
+      color: #1a3c34;
+      margin-bottom: 10px;
+    }
+
+    .redeem-btn {
+      background: #28a745;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .redeem-btn:hover {
+      background: #218838;
+    }
+
+    @media (min-width: 768px) {
+      .sidebar {
+        left: 0;
+      }
+
+      .main-content {
+        margin-left: 250px;
+      }
+
+      .menu-toggle {
+        display: none;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .search-bar {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav-right .points {
+        font-size: 12px;
+        padding: 5px 10px;
+      }
+
+      .login-btn {
+        padding: 5px 15px;
+        font-size: 14px;
+      }
+
+      .rewards-content {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="menu-toggle">
+      <i class="fas fa-bars"></i>
+    </div>
+    <div class="logo">
+      <img src="https://www.clipartmax.com/png/middle/67-675568_warehouse-and-inventory-management-integrated-tools-warehouse-management-system-wms-logo.png" alt="WMS Logo">
+    </div>
+    <div class="search-bar">
+      <input type="text" placeholder="Search...">
+    </div>
+    <div class="nav-right">
+      <i class="fas fa-bell"></i>
+      <span class="points" id="navPoints">🌿 0.00</span>
+      <a href="#" class="login-btn">Login <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </nav>
+
+  <aside class="sidebar">
+    <ul>
+      <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="report.html"><i class="fas fa-map-marker-alt"></i> Report Waste</a></li>
+      <li><a href="collect.html"><i class="fas fa-trash-alt"></i> collect Waste</a></li>
+      <li><a href="rewards.html"><i class="fas fa-leaf"></i> Rewards</a></li>
+      <li><a href="leaderboard.html"><i class="fas fa-trophy"></i> Leaderboard</a></li>
+    </ul>
+  </aside>
+  <main class="main-content">
+    <section class="rewards-section">
+      <div class="reward-balance">
+        <h2>Reward Balance</h2>
+        <p id="rewardPoints">0</p>
+        <span>Available Points</span>
+      </div>
+      <div class="rewards-content">
+        <div class="transactions">
+          <h3>Recent Transactions</h3>
+          <div id="transactionList">
+            <!-- Transactions will be dynamically loaded here -->
+          </div>
+        </div>
+        <div class="available-rewards">
+          <h3>Available Rewards</h3>
+          <p>Your Points: <span id="availablePoints">0</span> points</p>
+          <p>Redeem your earned points</p>
+          <button class="redeem-btn" onclick="redeemPoints()">Redeem All Points</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Sidebar toggle functionality
+    const menuToggle = document.querySelector('.menu-toggle');
+    const sidebar = document.querySelector('.sidebar');
+
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 767 && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+        sidebar.classList.remove('active');
+      }
+    });
+
+    // Fetch user points and transactions
+    async function fetchUserData() {
+      try {
+        const response = await fetch('http://localhost:3000/user');
+        const data = await response.json();
+        document.getElementById('rewardPoints').textContent = data.points;
+        document.getElementById('availablePoints').textContent = data.points;
+        document.getElementById('navPoints').textContent = `🌿 ${data.points.toFixed(2)}`;
+        renderTransactions(data.transactions);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    }
+
+    // Render transactions
+    function renderTransactions(transactions) {
+      const transactionList = document.getElementById('transactionList');
+      transactionList.innerHTML = '';
+      transactions.forEach(tx => {
+        const txItem = document.createElement('div');
+        txItem.classList.add('transaction-item', tx.type === 'earned' ? 'earned' : 'redeemed');
+        txItem.innerHTML = `
+          <div style="display: flex; align-items: center;">
+            <i class="fas ${tx.type === 'earned' ? 'fa-arrow-up' : 'fa-arrow-down'}"></i>
+            <p>${tx.description}<br>${tx.date}</p>
+          </div>
+          <span>${tx.type === 'earned' ? '+' : '-'}${tx.points}</span>
+        `;
+        transactionList.appendChild(txItem);
+      });
+    }
+
+    // Redeem points
+    async function redeemPoints() {
+      try {
+        const response = await fetch('http://localhost:3000/user/redeem', {
+          method: 'PATCH'
+        });
+        if (response.ok) {
+          alert('Points redeemed successfully!');
+          fetchUserData();
+        } else {
+          alert('Failed to redeem points. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error redeeming points:', error);
+        alert('An error occurred. Please try again.');
+      }
+    }
+
+    // Initial load
+    fetchUserData();
+  </script>
+</body>
+</html>
