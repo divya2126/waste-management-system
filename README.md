@@ -1,64 +1,61 @@
-♻️ Waste Management System
+# ♻️ Waste Management System  
 
-A full-stack web application designed to manage waste collection, reporting, and recycling efficiently. Built with HTML, CSS, JavaScript (Frontend) and Node.js + MongoDB (Backend).
+A **full-stack web application** designed to manage waste collection, reporting, and recycling efficiently. Built with **HTML, CSS, JavaScript (Frontend)** and **Node.js + MongoDB (Backend)**.  
 
-🚀 Features
+---
 
-👤 User Authentication (Login / Register)
+## 🚀 Features  
+- 👤 **User Authentication** (Login / Register)  
+- 🗑️ **Waste Collection Requests** – Users can report & schedule pickups  
+- 📢 **Complaints Module** – File and track complaints  
+- 🏆 **Leaderboard & Rewards** – Gamified system to encourage participation  
+- 📊 **Admin Dashboard** – Manage users, requests, and track reports  
+- 📱 **Responsive UI** – Works across desktop and mobile  
 
-🗑️ Waste Collection Requests – Users can report & schedule pickups
+---
 
-📢 Complaints Module – File and track complaints
+## 🛠️ Tech Stack  
 
-🏆 Leaderboard & Rewards – Gamified system to encourage participation
+**Frontend**:  
+- HTML  
+- CSS  
+- JavaScript  
 
-📊 Admin Dashboard – Manage users, requests, and track reports
+**Backend**:  
+- Node.js  
+- Express.js  
 
-📱 Responsive UI – Works across desktop and mobile
+**Database**:  
+- MongoDB  
 
-🛠️ Tech Stack
+---
 
-Frontend:
+## 📂 Project Structure  
 
-HTML
-
-CSS
-
-JavaScript
-
-Backend:
-
-Node.js
-
-Express.js
-
-Database:
-
-MongoDB
-
-📂 Project Structure
 waste-management-system/
-│── index.html          # Home Page
-│── login.html          # User Login
-│── register.html       # User Signup
-│── report.html         # Report waste/complaints
-│── collect.html        # Collection requests
-│── leaderboard.html    # Leaderboard & Rewards
-│── admin.html          # Admin Panel
-│── rewards.html        # Rewards page
-│── style.css           # Global styles
-│── server.js           # Node.js backend
+│── index.html # Home Page
+│── login.html # User Login
+│── register.html # User Signup
+│── report.html # Report waste/complaints
+│── collect.html # Collection requests
+│── leaderboard.html # Leaderboard & Rewards
+│── admin.html # Admin Panel
+│── rewards.html # Rewards page
+│── style.css # Global styles
+│── server.js # Node.js backend
 │── package.json
 │── package-lock.json
 └── .gitignore
 
-⚡ Installation & Setup
 
-Clone the repository
+---
 
+## ⚡ Installation & Setup  
+
+1. **Clone the repository**  
+```bash
 git clone https://github.com/divya2126/waste-management-system.git
 cd waste-management-system
-
 
 Install dependencies
 
@@ -83,7 +80,3 @@ http://localhost:3000
 📊 Analytics for waste management insights
 
 🌐 Deployment on cloud (Heroku / Vercel / Netlify + Render)
-
-🤝 Contributing
-
-Contributions are welcome! Please fork this repo and submit a pull request
